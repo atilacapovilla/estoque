@@ -2,7 +2,7 @@ from django.db import models
 from django.urls import reverse_lazy
 
 class Produto(models.Model):
-    importado = models.BooleanField(default=False)
+    importado = models.BooleanField('produto importado', default=False)
     ncm = models.CharField('NCM', max_length=8)
     produto = models.CharField(max_length=100, unique=True)
     preco = models.DecimalField('preço', max_digits=7, decimal_places=2)
