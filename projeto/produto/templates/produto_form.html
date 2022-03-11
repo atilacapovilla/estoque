@@ -3,37 +3,37 @@
 {% load widget_tweaks %}
 
 {% block content %}
-<h2>Novo Produto</h2>
-  <form method="POST" novalidate>
-    {% csrf_token %}
-  
-        {% for field in form.visible_fields %}
-        
-            <div class="form-group{% if field.errors %} has-error {% endif%}">
-                <label for="{{ field.id_for_label }}">
-                    {% if field.field.required %}
-                        <span class="required">{{ field.label }} </span>
-                    {% else %}
-                        {{ field.label }}
-                    {% endif %}
-                </label>
-                {% render_field field class="form-control" %}
-                {% for error in field.errors %}
-                    <span class="text-danger">{{ error }}</span>
-                {% endfor %}
-            </div>
-      
-        {% endfor %}
 
+<h2>Adicionar/Alterar Produto</h2>
+
+<form method="POST" novalidate>
+    {% csrf_token %}
+    {% for field in form.visible_fields %} 
+      <div class="form-group{% if field.errors %} has-error {% endif%}">
+
+        <label for="{{ field.id_for_label }}">
+          {% if field.field.required %}
+            <span class="required">{{ field.label }} </span>
+          {% else %}
+            {{ field.label }}
+          {% endif %}
+        </label>
+
+        {% render_field field class="form-control" %}
+
+        {% for error in field.errors %}
+          <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+        
+      </div>
+    {% endfor %}
     <button type="submit" class="btn btn-success">Cadastrar</button>
-  </form>
+</form>
 
 {% endblock content %}
 
 {% block js %}
-
   <script>
     $('#id_importado').removeClass('form-control');
   </script>
-
 {% endblock js %}
