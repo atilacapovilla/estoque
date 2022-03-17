@@ -14,7 +14,7 @@
 
     {% if object_list %}
 
-      <table class="table table-striped">
+      <table class="table table-sm table-hover table-striped">
         <thead>
           <tr>
             <th>Importado</th>
@@ -30,9 +30,9 @@
             <tr>
               <td>
                 {% if object.importado %}
-                  <i class="fa fa-check-circle ok"></i>
+                  <i class="fa fa-check-circle ok text-success"></i>
                 {% else %}
-                  <i class="fa fa-minus-circle no"></i>
+                  <i class="fa fa-minus-circle no text-danger"></i>
                 {% endif %}
               </td>
               <td>{{ object.ncm }}</td>
