@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url
 
 from projeto.estoque.forms import EstoqueForm, EstoqueItensForm
+from projeto.estoque.models import Produto
 from .models import Estoque, EstoqueItens
 
 def estoque_entrada_list(request):
@@ -18,6 +19,14 @@ def estoque_entrada_detail(request, pk):
     obj = Estoque.objects.get(pk=pk)
     context = {'object': obj}
     return render(request, template_name, context)
+
+def dar_baixa_estoque(form):
+    # Pega os produtos a partir da instância do formulário (Estoque).
+    produtos = form.estoques.all()
+    for item in produtos:
+        produto = Produto.objects.get(pk=item.produto.pk)
+        produto.estoque = item.saldo
+        produto.save()
 
 
 def estoque_entrada_add(request):
@@ -39,10 +48,11 @@ def estoque_entrada_add(request):
             prefix='estoque'
         )
         if form.is_valid() and formset.is_valid():
-            obj = form.save()
+            form  = form.save()
             formset.save()
+            dar_baixa_estoque(form)
             url = 'estoque:estoque_entrada_detail'
-            return HttpResponseRedirect(resolve_url(url, obj.pk))
+            return HttpResponseRedirect(resolve_url(url, form.pk))
     else:
         form = EstoqueForm(instance=estoque_form, prefix='main')
         formset = item_estoque_formset(instance=estoque_form, prefix='estoque')
