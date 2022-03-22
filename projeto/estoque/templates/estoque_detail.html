@@ -2,14 +2,22 @@
 
 {% block content %}
 
-<a href="{% url url_list %}">
-  <button type="button" class="btn btn-info">
-    <span class="fa-solid fa-list"></span>
-     Listagem de {{ titulo }}
-  </button>
-</a>
+{% if object.movimento == 'e' %}
+  <a href="{% url 'estoque:estoque_entrada_list' %}">
+    <button type="button" class="btn btn-info">
+      <span class="fa-solid fa-list"></span>
+        Listagem de Entradas
+    </button>
+  </a>
+{% else %}
+  <a href="{% url 'estoque:estoque_saida_list' %}">
+    <button type="button" class="btn btn-info">
+      <span class="fa-solid fa-list"></span>
+        Listagem de Saidas
+    </button>
+  </a>
+{% endif %}
 
-<h1>Saida: {{ object }}</h1>
  
   <div class="col-sm-6">
     <table class="table table-user-information">

@@ -36,10 +36,10 @@ class EstoqueEntrada(Estoque):
         verbose_name = 'estoque entrada'
         verbose_name_plural = 'estoque entrada'
 
-    def get_absolute_url(self):
-        return reverse_lazy(
-            "estoque:estoque_entrada_detail", kwargs={"pk": self.pk}
-        )
+    # def get_absolute_url(self):
+    #     return reverse_lazy(
+    #         "estoque:estoque_entrada_detail", kwargs={"pk": self.pk}
+    #     )
 
 class EstoqueSaida(Estoque):
     objects = EstoqueSaidaManager()
@@ -48,10 +48,10 @@ class EstoqueSaida(Estoque):
         verbose_name = 'estoque saida'
         verbose_name_plural = 'estoque saida'
 
-    def get_absolute_url(self):
-        return reverse_lazy(
-            "estoque:estoque_saida_detail", kwargs={"pk": self.pk}
-        )
+    # def get_absolute_url(self):
+    #     return reverse_lazy(
+    #         "estoque:estoque_saida_detail", kwargs={"pk": self.pk}
+    #     )
 
 class EstoqueItens(models.Model):
     estoque = models.ForeignKey(

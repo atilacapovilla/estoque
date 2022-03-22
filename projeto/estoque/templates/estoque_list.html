@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h2>Estoque {{ titulo}}
+<h2>Estoque
     <span class="pull-right">
         <a href="{% url url_add %}">
             <button type="button" class="btn btn-primary">
@@ -26,7 +26,7 @@
         {% for object in object_list %}
         <tr>
             <td>
-                <a href="{% url 'estoque:estoque_saida_detail' object.pk %}">{{ object }}</a>
+                <a href="{% url 'estoque:estoque_detail' object.pk %}">{{ object }}</a>
             </td>
             <td>{{ object.nf_formated }}</td>
             <td>{{ object.created }}</td>
