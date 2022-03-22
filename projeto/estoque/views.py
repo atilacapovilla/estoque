@@ -1,4 +1,4 @@
-from sys import prefix
+from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url
@@ -7,18 +7,6 @@ from django.views.generic import DetailView, ListView
 from projeto.estoque.forms import EstoqueForm, EstoqueItensForm
 from projeto.estoque.models import Produto
 from .models import Estoque, EstoqueEntrada, EstoqueSaida, EstoqueItens
-
-
-# FBV - Function Based View #
-# def estoque_entrada_list(request):
-#     template_name = 'estoque_list.html'
-#     objects = EstoqueEntrada.objects.all()
-#     context = {
-#         'object_list': objects,
-#         'titulo': 'Entrada',
-#         'url_add': 'estoque:estoque_entrada_add'
-#     }
-#     return render(request, template_name, context)
 
 class EstoqueEntradaList(ListView): 
     model = EstoqueEntrada
@@ -29,27 +17,6 @@ class EstoqueEntradaList(ListView):
         context['titulo'] = 'Entrada'
         context['url_add'] = 'estoque:estoque_entrada_add'
         return context
-
-# FBV
-# def estoque_entrada_detail(request, pk):
-#     template_name = 'estoque_detail.html'
-#     obj = EstoqueEntrada.objects.get(pk=pk)
-#     context = {
-#         'object': obj,
-#         'titulo': 'Entradas',
-#         'url_list': 'estoque:estoque_entrada_list'
-#     }
-#     return render(request, template_name, context)
-
-# class EstoqueEntradaDetail(DetailView):
-#     model = EstoqueEntrada
-#     template_name = 'estoque_detail.html'
-
-#     def get_context_data(self, **kwargs):
-#         context = super(EstoqueEntradaDetail, self).get_context_data(**kwargs)
-#         context['titulo'] = 'Entrada'
-#         context['url_list'] = 'estoque:estoque_entrada_list'
-#         return context
 
 class EstoqueDetail(DetailView):
     model = Estoque
@@ -97,14 +64,68 @@ def estoque_add(request, template_name, movimento, url):
     }
     return context
 
+@login_required
 def estoque_entrada_add(request):
     template_name = 'estoque_entrada_form.html'
     movimento = 'e'
-    url = 'estoque:estoque_entrada_detail'
+    url = 'estoque:estoque_detail'
     context = estoque_add(request, template_name, movimento, url)
     if context.get('pk'):
         return HttpResponseRedirect(resolve_url(url, context.get('pk')))
     return render(request, template_name, context)
+
+class EstoqueSaidaList(ListView): 
+    model = EstoqueSaida
+    template_name = 'estoque_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(EstoqueSaidaList, self).get_context_data(**kwargs)
+        context['titulo'] = 'Saida'
+        context['url_add'] = 'estoque:estoque_saida_add'
+        return context
+
+
+@login_required
+def estoque_saida_add(request):
+    template_name = 'estoque_saida_form.html'
+    movimento = 's'
+    url = 'estoque:estoque_detail'
+    context = estoque_add(request, template_name, movimento, url)
+    if context.get('pk'):
+        return HttpResponseRedirect(resolve_url(url, context.get('pk')))
+    return render(request, template_name, context)
+
+
+# FBV - Function Based View #
+# def estoque_entrada_list(request):
+#     template_name = 'estoque_list.html'
+#     objects = EstoqueEntrada.objects.all()
+#     context = {
+#         'object_list': objects,
+#         'titulo': 'Entrada',
+#         'url_add': 'estoque:estoque_entrada_add'
+#     }
+#     return render(request, template_name, context)
+
+# FBV
+# def estoque_entrada_detail(request, pk):
+#     template_name = 'estoque_detail.html'
+#     obj = EstoqueEntrada.objects.get(pk=pk)
+#     context = {
+#         'object': obj,
+#         'titulo': 'Entradas',
+#         'url_list': 'estoque:estoque_entrada_list'
+#     }
+#     return render(request, template_name, context)
+
+# class EstoqueEntradaDetail(DetailView):
+#     model = EstoqueEntrada
+#     template_name = 'estoque_detail.html'
+#     def get_context_data(self, **kwargs):
+#         context = super(EstoqueEntradaDetail, self).get_context_data(**kwargs)
+#         context['titulo'] = 'Entrada'
+#         context['url_list'] = 'estoque:estoque_entrada_list'
+#         return context
 
 # FBV
 # def estoque_saida_list(request):
@@ -116,16 +137,6 @@ def estoque_entrada_add(request):
 #         'url_add': 'estoque:estoque_saida_add'
 #         }
 #     return render(request, template_name, context)
-
-class EstoqueSaidaList(ListView): 
-    model = EstoqueSaida
-    template_name = 'estoque_list.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(EstoqueSaidaList, self).get_context_data(**kwargs)
-        context['titulo'] = 'Saida'
-        context['url_add'] = 'estoque:estoque_saida_add'
-        return context
 
 # FBV
 # def estoque_saida_detail(request, pk):
@@ -141,18 +152,8 @@ class EstoqueSaidaList(ListView):
 # class EstoqueSaidaDetail(DetailView):
 #     model = EstoqueSaida
 #     template_name = 'estoque_detail.html'
-
 #     def get_context_data(self, **kwargs):
 #         context = super(EstoqueSaidaDetail, self).get_context_data(**kwargs)
 #         context['titulo'] = 'Saida'
 #         context['url_list'] = 'estoque:estoque_saida_list'
-        return context
-
-def estoque_saida_add(request):
-    template_name = 'estoque_saida_form.html'
-    movimento = 's'
-    url = 'estoque:estoque_saida_detail'
-    context = estoque_add(request, template_name, movimento, url)
-    if context.get('pk'):
-        return HttpResponseRedirect(resolve_url(url, context.get('pk')))
-    return render(request, template_name, context)
+#       return context
