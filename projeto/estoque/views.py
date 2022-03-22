@@ -30,15 +30,26 @@ class EstoqueEntradaList(ListView):
         context['url_add'] = 'estoque:estoque_entrada_add'
         return context
 
-def estoque_entrada_detail(request, pk):
+# FBV
+# def estoque_entrada_detail(request, pk):
+#     template_name = 'estoque_detail.html'
+#     obj = EstoqueEntrada.objects.get(pk=pk)
+#     context = {
+#         'object': obj,
+#         'titulo': 'Entradas',
+#         'url_list': 'estoque:estoque_entrada_list'
+#     }
+#     return render(request, template_name, context)
+
+class EstoqueEntradaDetail(DetailView):
+    model = EstoqueEntrada
     template_name = 'estoque_detail.html'
-    obj = EstoqueEntrada.objects.get(pk=pk)
-    context = {
-        'object': obj,
-        'titulo': 'Entradas',
-        'url_list': 'estoque:estoque_entrada_list'
-    }
-    return render(request, template_name, context)
+
+    def get_context_data(self, **kwargs):
+        context = super(EstoqueEntradaDetail, self).get_context_data(**kwargs)
+        context['titulo'] = 'Entrada'
+        context['url_list'] = 'estoque:estoque_entrada_list'
+        return context
 
 def dar_baixa_estoque(form):
     # Pega os produtos a partir da instância do formulário (Estoque).
@@ -112,16 +123,26 @@ class EstoqueSaidaList(ListView):
         context['url_add'] = 'estoque:estoque_saida_add'
         return context
 
-def estoque_saida_detail(request, pk):
-    template_name = 'estoque_detail.html'
-    obj = EstoqueSaida.objects.get(pk=pk)
-    context = {
-        'object': obj,
-        'titulo': 'Saidas',
-        'url_list': 'estoque:estoque_saida_list'
-    }
-    return render(request, template_name, context)
+# FBV
+# def estoque_saida_detail(request, pk):
+#     template_name = 'estoque_detail.html'
+#     obj = EstoqueSaida.objects.get(pk=pk)
+#     context = {
+#         'object': obj,
+#         'titulo': 'Saidas',
+#         'url_list': 'estoque:estoque_saida_list'
+#     }
+#     return render(request, template_name, context)
 
+class EstoqueSaidaDetail(DetailView):
+    model = EstoqueSaida
+    template_name = 'estoque_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(EstoqueSaidaDetail, self).get_context_data(**kwargs)
+        context['titulo'] = 'Saida'
+        context['url_list'] = 'estoque:estoque_saida_list'
+        return context
 
 def estoque_saida_add(request):
     template_name = 'estoque_saida_form.html'
